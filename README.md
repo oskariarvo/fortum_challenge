@@ -32,16 +32,21 @@ fortum_challenge/
 │   ├── 01_ingestion/
 │   ├── 02_cleaning/
 │   ├── 03_aggregation/
+│   ├── export/
 │
 ├── ML_model/
 │   ├── training_model.py
 │   ├── inference_model.py
 │
 ├── submission_processing/
+│   ├── export_deliverables/
 │   ├── submission_formatting/
-│   ├── evaluation/
+│   ├── evaluation_hourly.ipynb
 │
 └── README.md
+└── .gitignore
+└── requirements.txt
+└── fortum_challenge_guidebook.pdf
 ```
 
 ---
@@ -216,6 +221,16 @@ This project emphasizes:
 * Python (Pandas, LightGBM, Scikit-learn)
 * Databricks (SQL, PySpark)
 * Git & GitHub
+
+---
+
+## 📦 Requirements
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
