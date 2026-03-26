@@ -85,7 +85,15 @@ This pipeline produces training and inference datasets exported as CSV files for
 
 ## 🤖 Modeling Approach
 
-A LightGBM-based model was used for both hourly and monthly forecasting.
+A LightGBM model was selected due to its strong performance on tabular data and its ability to handle:
+
+- Non-linear relationships  
+- Mixed feature types (numerical and categorical)  
+- Large-scale datasets efficiently
+
+The same modeling approach was applied for both hourly (48-hour) and monthly (12-month) forecasting tasks, allowing a consistent and scalable pipeline design.
+
+The focus of the solution was placed on feature engineering rather than model complexity, as the problem involves strong temporal patterns and limited future information.
 
 ### Key characteristics:
 
@@ -111,6 +119,28 @@ This approach ensures that inference can be performed without requiring unknown 
 
 * Finnish public holiday data
 * Weather data from public sources
+
+### Model Training & Validation
+
+The model was trained using a time-based validation strategy to reflect real-world forecasting conditions.
+
+- Data was sorted by `group_id` and `timestamp_utc`
+- A fixed temporal cutoff was used to split training and validation data:
+  - Hourly: 2024-09-15
+  - Monthly: 2023-10-01
+
+All observations before the cutoff were used for training, and observations at or after the cutoff were used for validation.
+
+This approach ensures:
+- No future data leakage
+- Realistic evaluation aligned with forecasting tasks
+
+For additional evaluation, the final 48 hours of historical data were used to simulate the competition prediction window and compare predictions against actual values.
+
+Model performance was evaluated using:
+- Mean Absolute Error (MAE)
+- Mean Absolute Percentage Error (MAPE)
+- Forecast Value Added (FVA) relative to baseline
 
 ---
 
