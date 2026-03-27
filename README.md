@@ -53,10 +53,43 @@ fortum_challenge/
 
 ### 📁 Data Folder
 
-- `raw/` contains the original (anonymized) dataset provided in the challenge (consumption, prices, etc.)
+- `raw/` contains:
+  - the original (anonymized) dataset provided in the challenge (consumption, prices, etc.)
+  - the weather–group mapping dataset (`group_weather_map.csv`)
 - `forecasts/` contains the final prediction outputs submitted for evaluation:
   - 48-hour hourly forecasts
   - 12-month monthly forecasts
+
+---
+
+## 📊 External Data Sources
+
+### Finnish calendar and holiday data
+
+Calendar and holiday data was fetched from the Holiday Calendar API and written to Databricks bronze tables.
+
+- This data was used to derive calendar-based features such as weekdays, weekends, and holidays.
+- Source: `https://holiday-calendar.fi/api/calendar`
+- Time range (hourly): `2021-01-01` to `2024-09-30`
+- Time range (monthly): `2024-10-01` to `2025-09-30`
+
+### Weather Data
+
+Weather data was collected from the Finnish Meteorological Institute:
+https://www.ilmatieteenlaitos.fi/havaintojen-lataus
+
+- Time range: `2021-01-01` to `2024-09-30`
+- Data includes multiple cities across Finland (Helsinki, Turku, Tampere, Vaasa, Kuopio, Jyväskylä, Oulu, Rovaniemi, Lahti, Lappeenranta, Joensuu, Hämeenlinna, Espoo, Seinäjoki, Vantaa, Pori)
+- Each dataset represents observations from a specific weather station
+
+### Weather–Group Mapping
+
+Since consumption data is grouped by `group_id` and not directly linked to weather stations:
+
+- A manual mapping was created between `group_id` and the nearest weather station
+- The mapping is stored as a table (`group_weather_map`) in the data pipeline
+- The mapping is included in the repository as `data/raw/group_weather_map.csv`
+- The mapping is used to join weather features to each group during feature engineering
 
 ---
 
@@ -175,6 +208,11 @@ This behavior suggests that:
 
 To reproduce the workflow:
 
+0. Upload source data to Databricks
+
+   * Upload raw consumption, price, calendar, and weather datasets
+   * Store them in the `00_landing` / `01_bronze` layer (see code documentation)
+
 1. Run the **data pipeline in Databricks**
 
    * Execute ingestion → cleaning → aggregation layers in order
@@ -203,7 +241,7 @@ To reproduce the workflow:
 
 ---
 
-## 📦 Data Format
+## 📦 Local Data Format
 
 Expected local folder structure:
 
