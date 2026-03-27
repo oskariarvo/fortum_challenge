@@ -116,6 +116,21 @@ This pipeline produces training and inference datasets exported as CSV files for
 
 ---
 
+### 🧱 Data Architecture (Medallion Design)
+
+The pipeline follows a medallion architecture where data quality is progressively improved across layers:
+
+`00_landing_weather` → Raw layer for external weather data
+`01_bronze` → Raw data stored as-is
+`02_silver` → Cleaned and validated data
+`03_gold` → Feature-engineered datasets for modeling
+`04_results` → Model predictions and evaluation outputs
+`05_deliverables` → Final submission-ready datasets
+
+This structure ensures clear separation between raw data, transformed data, and business-ready outputs, improving maintainability and reproducibility.
+
+---
+
 ## 🤖 Modeling Approach
 
 A LightGBM model was selected due to its strong performance on tabular data and its ability to handle:
@@ -211,7 +226,7 @@ To reproduce the workflow:
 0. Upload source data to Databricks
 
    * Upload raw consumption, price, calendar, and weather datasets
-   * Store them in the `00_landing` / `01_bronze` layer (see code documentation)
+   * Store them in the `00_landing_weather` / `01_bronze` layer (see code documentation)
 
 1. Run the **data pipeline in Databricks**
 
