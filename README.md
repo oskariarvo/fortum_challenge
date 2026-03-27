@@ -120,12 +120,12 @@ This pipeline produces training and inference datasets exported as CSV files for
 
 The pipeline follows a medallion architecture where data quality is progressively improved across layers:
 
-`00_landing_weather` → Raw layer for external weather data
-`01_bronze` → Raw data stored as-is
-`02_silver` → Cleaned and validated data
-`03_gold` → Feature-engineered datasets for modeling
-`04_results` → Model predictions and evaluation outputs
-`05_deliverables` → Final submission-ready datasets
+- `00_landing_weather` → Raw layer for external weather data
+- `01_bronze` → Raw data stored as-is
+- `02_silver` → Cleaned and validated data
+- `03_gold` → Feature-engineered datasets for modeling
+- `04_results` → Model predictions and evaluation outputs
+- `05_deliverables` → Final submission-ready datasets
 
 This structure ensures clear separation between raw data, transformed data, and business-ready outputs, improving maintainability and reproducibility.
 
